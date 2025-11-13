@@ -1,20 +1,23 @@
 {
-  "name": "gear-up-server",
-  "version": "now-php@1.0.0",
-  "description": "",
-  "main": "api/index.js",
-  "scripts": {
-    "start":"node api/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "mongodb": "^6.20.0"
-  }
+ "name": "gearup-server",
+ "version": "1.0.0",
+ "description": "",
+ "main": "index.js",
+ "scripts": {
+   "start":"node index.js",
+   "test": "echo \"Error: no test specified\" && exit 1"
+ },
+ "keywords": [],
+ "author": "",
+ "license": "ISC",
+ "type": "commonjs",
+ "dependencies": {
+   "cors": "^2.8.5",
+   "dotenv": "^17.2.3",
+   "express": "^5.1.0",
+   "mongodb": "^6.20.0"
+ }
 }
+
+
+

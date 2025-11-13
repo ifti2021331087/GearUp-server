@@ -5,7 +5,13 @@ require('dotenv').config()
 const port = process.env.PORT || 5001
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-app.use(cors())
+app.use(cors({
+    origin:[
+        "http://localhost:5173",
+        'https://gearup-3fd5b.web.app',
+        'https://gearup-3fd5b.firebaseapp.com'
+    ]
+}))
 app.use(express.json())
 
 app.get('/', (req, res) => {
@@ -24,7 +30,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
-        await client.connect();
+        // await client.connect();
         const cartCollection = client.db('GearUp').collection('cart');
         const userCollection=client.db('GearUp').collection('user');
         await cartCollection.createIndex({ itemName: 1 }, { unique: true });
@@ -95,7 +101,7 @@ async function run() {
         })
 
 
-        await client.db("admin").command({ ping: 1 });
+        // await client.db("admin").command({ ping: 1 });
     } finally { }
 }
 

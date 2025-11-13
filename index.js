@@ -2,16 +2,16 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 require('dotenv').config()
-// const port = process.env.PORT || 5001
+const port = process.env.PORT || 5001
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-app.use(cors({
-    origin:[
-        "http://localhost:5173",
-        'https://gearup-3fd5b.web.app',
-        'https://gearup-3fd5b.firebaseapp.com'
-    ]
-}))
+const corsConfig={
+    origin:"*",
+    credential:true,
+    method:["GET","POST","PUT","DELETE"]
+}
+app.options("",cors(corsConfig));
+app.use(cors(corsConfig));
 app.use(express.json())
 
 app.get('/', (req, res) => {
@@ -107,6 +107,6 @@ async function run() {
 
 run().catch(console.dir);
 
-// app.listen(port, () => {
-//     console.log(`Broh... server is running on port ${port}`);
-// });
+app.listen(port, () => {
+    console.log(`Broh... server is running on port ${port}`);
+});

@@ -30,7 +30,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
-        // await client.connect();
+        client.connect();
         const cartCollection = client.db('GearUp').collection('cart');
         const userCollection=client.db('GearUp').collection('user');
         await cartCollection.createIndex({ itemName: 1 }, { unique: true });

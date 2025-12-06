@@ -5,12 +5,12 @@ require('dotenv').config()
 const port = process.env.PORT || 5001
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-const corsConfig={
-    origin:"*",
-    credential:true,
-    method:["GET","POST","PUT","DELETE"]
+const corsConfig = {
+    origin: "*",
+    credential: true,
+    method: ["GET", "POST", "PUT", "DELETE"]
 }
-app.options("",cors(corsConfig));
+app.options("", cors(corsConfig));
 app.use(cors(corsConfig));
 app.use(express.json())
 
@@ -32,15 +32,23 @@ async function run() {
     try {
         client.connect();
         const cartCollection = client.db('GearUp').collection('cart');
-        const userCollection=client.db('GearUp').collection('user');
+        const userCollection = client.db('GearUp').collection('user');
         await cartCollection.createIndex({ itemName: 1 }, { unique: true });
 
         // cart related API
         app.get('/cart', async (req, res) => {
-            const cursor = cartCollection.find();
+            const email = req.query.userEmail;
+            const query = { userEmail: email };
+            const cursor = cartCollection.find(query);
             const result = await cursor.toArray();
             res.send(result);
-        });
+        })
+
+        // app.get('/cart', async (req, res) => {
+        //     const cursor = cartCollection.find();
+        //     const result = await cursor.toArray();
+        //     res.send(result);
+        // });
 
         app.post('/cart', async (req, res) => {
             const newItem = req.body;
@@ -68,10 +76,10 @@ async function run() {
 
         // user related API
 
-        app.get('/user/:email',async(req,res)=>{
-            const email=req.params.email;
-            const query={email:email};
-            const result=await userCollection.findOne(query);
+        app.get('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const result = await userCollection.findOne(query);
             res.send(result);
         })
 
@@ -81,22 +89,22 @@ async function run() {
             res.send(result);
         });
 
-        app.post('/user',async(req,res)=>{
-            const newUser=req.body;
-            const result=await userCollection.insertOne(newUser);
+        app.post('/user', async (req, res) => {
+            const newUser = req.body;
+            const result = await userCollection.insertOne(newUser);
             res.send(newUser);
         })
 
-        app.patch('/user',async(req,res)=>{
-            const email=req.body.email;
-            const filter={email};
-            const updatedDoc={
-                $set:{
-                    photo:req.body.photo,            
-                    name:req.body.name,
+        app.patch('/user', async (req, res) => {
+            const email = req.body.email;
+            const filter = { email };
+            const updatedDoc = {
+                $set: {
+                    photo: req.body.photo,
+                    name: req.body.name,
                 }
             }
-            const result=await userCollection.updateOne(filter,updatedDoc);
+            const result = await userCollection.updateOne(filter, updatedDoc);
             res.send(result);
         })
 

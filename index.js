@@ -36,19 +36,19 @@ async function run() {
         await cartCollection.createIndex({ itemName: 1 }, { unique: true });
 
         // cart related API
-        app.get('/cart', async (req, res) => {
-            const email = req.query.userEmail;
-            const query = { userEmail: email };
-            const cursor = cartCollection.find(query);
-            const result = await cursor.toArray();
-            res.send(result);
-        })
-
         // app.get('/cart', async (req, res) => {
-        //     const cursor = cartCollection.find();
+        //     const email = req.query.userEmail;
+        //     const query = { userEmail: email };
+        //     const cursor = cartCollection.find(query);
         //     const result = await cursor.toArray();
         //     res.send(result);
-        // });
+        // })
+
+        app.get('/cart', async (req, res) => {
+            const cursor = cartCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        });
 
         app.post('/cart', async (req, res) => {
             const newItem = req.body;
